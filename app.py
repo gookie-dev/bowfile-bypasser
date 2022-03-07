@@ -3,13 +3,6 @@ import requests, validators, os
 
 app = Flask(__name__)
 
-@app.before_request
-def before_request():
-    if not request.is_secure:
-        url = request.url.replace('http://', 'https://', 1)
-        code = 301
-        return redirect(url, code=code)
-
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
@@ -20,13 +13,13 @@ def index():
 
 @app.route('/<path>')
 def to_index(path):
-    return redirect("/")
+    return redirect("https://bowfile-bypasser.gookie.dev/")
 
 @app.route('/api')
 def api():
     args = request.args
     if "url" not in args:
-       return redirect("/")
+       return redirect("https://bowfile-bypasser.gookie.dev/")
     if validators.url(args.get("url")):
         if args.get("url").startswith("https://bowfile.com/"):
             id = args.get("url").replace("https://bowfile.com/", "")
@@ -34,7 +27,7 @@ def api():
             try:
                 token = r.text.split("showFileInformation(")[1].split(");")[0]
             except:
-                return redirect("/")
+                return redirect("https://bowfile-bypasser.gookie.dev/")
             ddl = requests.request('HEAD', url = "https://bowfile.com/account/direct_download/" + token, headers = {"Cookie": "filehosting=20nupilfrt7df5b8hurj69prio"}) 
             return redirect(ddl.url)
-    return redirect("/")
+    return redirect("https://bowfile-bypasser.gookie.dev/")
