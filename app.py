@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect
 import requests
 
 app = Flask(__name__)
@@ -15,4 +15,4 @@ def id(id):
     except:
         return "cant find token on given download id"
     ddl = requests.request('HEAD', url = "https://bowfile.com/account/direct_download/" + token, headers = {"Cookie": "filehosting=20nupilfrt7df5b8hurj69prio"}) 
-    return ddl.url
+    return redirect(ddl.url)
